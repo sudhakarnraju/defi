@@ -1,0 +1,10 @@
+@use "../../../styles/base";
+.panel {
+  padding: 48px 28px 28px 28px;
+  background: #ffffff;
+  border-radius: 12px;
+  min-height: 608px;
+}
+.panel.isMobile {
+  min-height: 450px;
+}

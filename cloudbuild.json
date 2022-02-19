@@ -1,0 +1,64 @@
+{
+  "steps": [
+    {
+      "name": "node",
+      "id": "yarn-install",
+      "entrypoint": "yarn",
+      "args": ["install"]
+    },
+    {
+      "name": "node",
+      "entrypoint": "yarn",
+      "id": "build-app",
+      "waitFor": ["yarn-install"],
+      "args": ["build"]
+    },
+    {
+      "name": "node",
+      "id": "build-storybook",
+      "entrypoint": "yarn",
+      "args": ["build-storybook"],
+      "waitFor": ["yarn-install"]
+    },
+    {
+      "name": "node",
+      "id": "run-test-coverage",
+      "entrypoint": "yarn",
+      "args": ["test-coverage"],
+      "waitFor": ["yarn-install"]
+    },
+    {
+      "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
+      "entrypoint": "bash",
+      "id": "deploy-app",
+      "waitFor": ["build-app"],
+      "args": [
+        "-c",
+        "gcloud config set app/cloud_build_timeout 1600 && gcloud app deploy"
+      ]
+    },
+    {
+      "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
+      "entrypoint": "bash",
+      "waitFor": ["build-storybook"],
+      "id": "deploy-storybook",
+      "dir": "storybook-static",
+      "args": [
+        "-c",
+        "gcloud config set app/cloud_build_timeout 1600 && gcloud app deploy"
+      ]
+    },
+    {
+      "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
+      "entrypoint": "bash",
+      "waitFor": ["run-test-coverage"],
+      "id": "deploy-test-coverage",
+      "dir": "coverage/lcov-report",
+      "args": [
+        "-c",
+        "gcloud config set app/cloud_build_timeout 1600 && gcloud app deploy"
+      ]
+    }
+  ],
+  "timeout": "1600s"
+}

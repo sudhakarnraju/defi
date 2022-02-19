@@ -1,0 +1,90 @@
+{
+  "name": "defi",
+  "version": "1.0.1",
+  "private": true,
+  "scripts": {
+    "build": "NEXT_PUBLIC_APP_VERSION=1.0.`date +\"%m%d%H%M\"` NODE_ENV=production next build",
+    "start": "next start -p 8080",
+    "deploy": "npm run build && gcloud --quiet app deploy",
+    "dev": "NEXT_PUBLIC_APP_VERSION=1.0.`date +\"%m%d%H%M\"` next dev",
+    "startlocal": "next start",
+    "storybook": "start-storybook -p 6006 -s ./public",
+    "build-storybook": "build-storybook -s public && cp storybook.yaml storybook-static/app.yaml",
+    "deploy-storybook": "npm run build-storybook && cd storybook-static && gcloud --quiet app deploy",
+    "lint": "eslint ./",
+    "lint-fix": "eslint ./ --fix",
+    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+    "test": "NEXT_PUBLIC_APP_VERSION=1.0.`date +\"%m%d%H%M\"` jest",
+    "test-coverage": "NEXT_PUBLIC_APP_VERSION=1.0.`date +\"%m%d%H%M\"` jest --coverage && cp test.yaml coverage/lcov-report/app.yaml"
+  },
+  "eslintIgnore": [
+    "*.test.js",
+    "*.stories.js",
+    "storybook-static/**"
+  ],
+  "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "ag-grid-community": "^25.1.0",
+    "ag-grid-react": "^25.1.0",
+    "classnames": "^2.2.6",
+    "font-awesome": "^4.7.0",
+    "jest-svg-transformer": "^1.0.0",
+    "moment": "^2.29.1",
+    "next": "10.1.2",
+    "next-images": "^1.7.0",
+    "prop-types": "^15.7.2",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-responsive": "^8.2.0",
+    "react-select": "^4.3.0",
+    "react-table": "^7.6.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.14",
+    "@babel/plugin-syntax-jsx": "^7.12.13",
+    "@babel/plugin-transform-runtime": "^7.13.15",
+    "@babel/preset-react": "^7.13.13",
+    "@storybook/addon-actions": "^6.2.1",
+    "@storybook/addon-essentials": "^6.2.1",
+    "@storybook/addon-links": "^6.2.1",
+    "@storybook/preset-scss": "^1.0.3",
+    "@storybook/react": "^6.2.1",
+    "@testing-library/dom": "^7.30.3",
+    "@testing-library/jest-dom": "^5.11.10",
+    "@testing-library/react": "^11.2.6",
+    "@testing-library/user-event": "^13.1.4",
+    "@types/jest": "^26.0.22",
+    "babel-jest": "^26.6.3",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^5.2.0",
+    "eslint": "^7.26.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-promise": "^4.3.1",
+    "eslint-plugin-react": "^7.23.2",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "husky": "^6.0.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^26.6.3",
+    "lint-staged": "^10.5.4",
+    "pretty-quick": "^3.1.0",
+    "sass": "^1.32.8",
+    "sass-loader": "10.1.1",
+    "storybook-addon-next-router": "^2.0.4",
+    "storybook-css-modules-preset": "^1.0.8",
+    "style-loader": "^2.0.0"
+  },
+  "lint-staged": {
+    "*.js": "eslint"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && pretty-quick --staged"
+    }
+  }
+}

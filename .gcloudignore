@@ -1,0 +1,14 @@
+# Next.js source code
+/components
+/fonts
+/node_modules
+/pages/
+/stories/
+/styles/
+/.git/
+next.config.js
+README.md
+yarn.lock
+.gitignore
+.storybook
+
